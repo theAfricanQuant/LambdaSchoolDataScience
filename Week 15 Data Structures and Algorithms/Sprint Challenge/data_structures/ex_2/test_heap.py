@@ -3,16 +3,10 @@ from random import randint
 from heap import heapsort
 
 def gen_random_input(length, max):
-  input = []
-  for i in range(length):
-    input.append(randint(0, max))
-  return input
+  return [randint(0, max) for _ in range(length)]
 
 def is_sorted(arr):
-  for i in range(len(arr) - 1):
-    if arr[i] > arr[i+1]:
-      return False
-  return True
+  return all(arr[i] <= arr[i+1] for i in range(len(arr) - 1))
 
 class HeapTests(unittest.TestCase):
   def test_heap_sort_correctness(self):

@@ -41,10 +41,9 @@ class Graph:
         @return None if no such Vertex exists in the Graph.
         @return {Vertex} the found Vertex
         """
-        for vertex in self.vertices:
-            if vertex.value == value:
-                return vertex
-        return None
+        return next(
+            (vertex for vertex in self.vertices if vertex.value == value), None
+        )
 
     def bfs(self, start):
         """

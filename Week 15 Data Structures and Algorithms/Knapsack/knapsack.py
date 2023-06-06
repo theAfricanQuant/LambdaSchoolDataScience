@@ -9,7 +9,7 @@ def brute_knapsack_solver(items, capacity):
     # base case
     if capacity == 0:
         return 0, 0, []
-    
+
     max_value = 0
     size = 0
     knapsack = []
@@ -21,7 +21,7 @@ def brute_knapsack_solver(items, capacity):
         remaining_capacity = capacity - item.size
         remaining_items = items.copy()
         remaining_items.remove(item)
-        
+
         value, _, subsack = brute_knapsack_solver(remaining_items, remaining_capacity)
         value += item.value
         subsack.append(item.index)
@@ -29,8 +29,8 @@ def brute_knapsack_solver(items, capacity):
         if value > max_value:
             max_value = value
             knapsack = subsack
-    
-    size = sum([items[item-1].size for item in knapsack])
+
+    size = sum(items[item-1].size for item in knapsack)
     return max_value, size, knapsack
 
 def iterative_knapsack_solver(items, capacity):
@@ -48,7 +48,7 @@ def iterative_knapsack_solver(items, capacity):
             else:
                 with_new = cache[index-1, weight-items[index-1].size] + items[index-1].value
                 without_new = cache[index-1, weight]
-                
+
                 if with_new > without_new:
                     cache[index, weight] = with_new
                     knapsack[index, weight] = knapsack[index-1, weight-items[index-1].size] + [index]
@@ -59,13 +59,13 @@ def iterative_knapsack_solver(items, capacity):
 
     value = cache[len(items), capacity]
     knapsack = knapsack[len(items), capacity]
-    size = sum([items[item-1].size for item in knapsack])
+    size = sum(items[item-1].size for item in knapsack)
     return value, size, knapsack
 
 def greedy_knapsack_solver(items, capacity):
-    weighted_items = sorted([item for item in items], 
-                            key=lambda item: item.value/item.size,
-                            reverse=True)
+    weighted_items = sorted(
+        list(items), key=lambda item: item.value / item.size, reverse=True
+    )
     knapsack = []
     size = 0
     value = 0
@@ -93,25 +93,20 @@ def knapsack_solver(items, capacity, strategy):
 
     value, size, knapsack = algorithm(items, capacity)
     knapsack = map(str, knapsack)
-    return 'Value: {}\nSize: {}\nChosen: {}\n'.format(value, size, ','.join(knapsack))
+    return f"Value: {value}\nSize: {size}\nChosen: {','.join(knapsack)}\n"
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         capacity = int(sys.argv[2])
         file_location = sys.argv[1].strip()
-        file_contents = open(file_location, 'r')
-        items = []
-        
-        if len(sys.argv) > 3:
-            strategy = sys.argv[3].strip()
-        else:
-            strategy = 'iterative'
+        with open(file_location, 'r') as file_contents:
+            items = []
 
-        for line in file_contents.readlines():
-            data = line.rstrip().split()
-            items.append(Item(int(data[0]), int(data[1]), int(data[2])))
-    
-        file_contents.close()
+            strategy = sys.argv[3].strip() if len(sys.argv) > 3 else 'iterative'
+            for line in file_contents:
+                data = line.rstrip().split()
+                items.append(Item(int(data[0]), int(data[1]), int(data[2])))
+
         print(knapsack_solver(items, capacity, strategy))
     else:
         print('Usage: knapsack.py [filename] [capacity]')

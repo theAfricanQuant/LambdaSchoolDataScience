@@ -27,12 +27,12 @@ class BinarySearchTree:
         current = self
         go_to_next_level = False
 
-        while current or len(visited) > 0 or len(visited_left_child) > 0:
+        while current or visited or visited_left_child:
             if current:
                 cb(current.value)
                 visited.append(current)
 
-            if len(visited_left_child) > 0:
+            if visited_left_child:
                 parent = visited_left_child.pop(0)
                 current = parent.right
             elif len(visited) > 0:
@@ -47,15 +47,14 @@ class BinarySearchTree:
     def insert(self, value):
         new_tree = BinarySearchTree(value)
         if (value < self.value):
-            if not self.left:
-                self.left = new_tree
-            else:
+            if self.left:
                 self.left.insert(value)
-        elif value >= self.value:
-            if not self.right:
-                self.right = new_tree
             else:
-                self.right.insert(value)
+                self.left = new_tree
+        elif not self.right:
+            self.right = new_tree
+        else:
+            self.right.insert(value)
 
     def contains(self, target):
         if self.value == target:

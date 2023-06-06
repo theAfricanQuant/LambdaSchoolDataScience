@@ -58,7 +58,7 @@ class BokehGraph:
         colors = []
         num_colors = num_colors or len(self.graph.vertices)
         for _ in range(num_colors):
-            color = '#' + ''.join([choice('0123456789ABCDEF') for j in range(6)])
+            color = '#' + ''.join([choice('0123456789ABCDEF') for _ in range(6)])
             colors.append(color)
         return colors
 
@@ -104,7 +104,4 @@ class BokehGraph:
         """Return same-colors for vertices in connected components."""
         self.graph.find_components()
         component_colors = self._get_random_colors(self.graph.components)
-        vertex_colors = []
-        for vertex in self.vertex_list:
-            vertex_colors.append(component_colors[vertex.component])
-        return vertex_colors
+        return [component_colors[vertex.component] for vertex in self.vertex_list]

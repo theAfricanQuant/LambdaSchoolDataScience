@@ -12,7 +12,7 @@ class Vertex:
         self.component = component
 
     def __repr__(self):
-        return 'Vertex: ' + self.label
+        return f'Vertex: {self.label}'
 
 
 class Graph:

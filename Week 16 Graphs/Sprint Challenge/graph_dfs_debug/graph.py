@@ -9,7 +9,7 @@ class Vertex:
         self.component = component
 
     def __repr__(self):
-        return 'Vertex: ' + self.label
+        return f'Vertex: {self.label}'
 
 
 """Trying to make this Graph class work..."""
@@ -29,8 +29,7 @@ class Graph:
             self.vertices[end].add(start)
 
     def dfs(self, start, target=None):
-        frontier = []
-        frontier.append(start)
+        frontier = [start]
         visited = set()
 
         while frontier:

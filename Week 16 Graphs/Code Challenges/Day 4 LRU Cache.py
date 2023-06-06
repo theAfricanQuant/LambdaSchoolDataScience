@@ -119,14 +119,11 @@ class List:
     """Removes the head of the List and returns its value"""
     def shift(self):
         if not self.head:
-            if not self.tail:
-                return None
-            return self.remove_from_tail()
-        else:
-            current_head = self.head
-            self.head = self.head.next
-            self.head.prev = None
-            return current_head.val
+            return None if not self.tail else self.remove_from_tail()
+        current_head = self.head
+        self.head = self.head.next
+        self.head.prev = None
+        return current_head.val
       
     """Adds the given value as the new tail of the List"""
     def add_to_tail(self, val):
@@ -143,14 +140,11 @@ class List:
     """Removes the tail of the List and returns its value"""
     def remove_from_tail(self):
         if not self.tail:
-            if not self.head:
-                return None
-            return self.shift()
-        else:
-            current_tail = self.tail
-            self.tail = self.tail.prev
-            self.tail.next = None
-            return current_tail.val
+            return None if not self.head else self.shift()
+        current_tail = self.tail
+        self.tail = self.tail.prev
+        self.tail.next = None
+        return current_tail.val
       
     """Moves the given node to the head of the List"""
     def move_to_front(self, node):

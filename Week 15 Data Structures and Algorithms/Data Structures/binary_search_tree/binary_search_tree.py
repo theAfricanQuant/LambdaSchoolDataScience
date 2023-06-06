@@ -9,10 +9,7 @@ class BinarySearchTree:
         parent = None
         while current:
             parent = current
-            if value < current.value:
-                current = current.left
-            else:
-                current = current.right
+            current = current.left if value < current.value else current.right
         current = BinarySearchTree(value)
 
         if value < parent.value:
